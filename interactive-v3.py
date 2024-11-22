@@ -55,101 +55,101 @@ if uploaded_file:
         st.error("Failed to read file due to the following reasons:",ex)
 
     st.header("Select Task")    
-    st.session_state.task = st.radio("Options: ",["Screening chatbot","Chatbot"],disabled=True)
+    st.session_state.task = st.radio("Options: ",["","Screening chatbot","Chatbot"])
 
-if st.session_state.task:
-    if st.session_state.task == "Screening chatbot":
-        st.write("Select the primary criteria")
-        column = st.selectbox("Columns",st.session_state.df.columns)
 
-        if st.session_state.df[column].dtype =="object":
-            st.session_state.keyword = st.text_input("Enter the keyword criteria for screening (eg: MLops, sql, etc.)")
-            filtered_df = st.session_state.df[st.session_state.df[column].str.contains(st.session_state.keyword,case = False, na= False)]
-            st.session_state.mydf = filtered_df
-            st.write("Candidate list filtered succesfully")
-            st.write("There are {} total candidates, having {} skillset.".format(len(st.session_state.mydf),st.session_state.keyword))
-            st.dataframe(st.session_state.mydf)
-        else:
-            st.session_state.mydf = st.session_state.df
-        
-        for message in st.session_state.chat_history:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
+if st.session_state.task == "Screening chatbot":
+    st.write("Select the primary criteria")
+    column = st.selectbox("Columns",st.session_state.df.columns)
 
-        user_prompt = st.chat_input("Enquire about the candidates")  
-
-        
-
-        if user_prompt:
-            #Prompt for querying from candidate list
-            st.chat_message("user").markdown(user_prompt)  
-            st.session_state.chat_history.append({"role": "user", "content": user_prompt})  
-
-            full_prompt = f"""
-            You are an advanced data analysis model designed to provide precise and consistent answers based on the given DataFrame {st.session_state.mydf.to_string()}
-
-            Question to respond: {user_prompt}
-
-            If retreval of records is required, present the records with all relevant details in a tabular format.
-            
-            """
-            chat = client.chat.completions.create(
-                messages=[
-                    {
-                        "role": "user",
-                        "content": full_prompt,
-                    }
-                ],
-                model="llama3-8b-8192",
-                temperature = 0.5
-            )
-
-            assistant_response = chat.choices[0].message.content  
-            st.session_state.chat_history.append({"role": "assistant", "content": assistant_response})  
-
-            with st.chat_message("assistant"):
-                st.markdown(assistant_response)
+    if st.session_state.df[column].dtype =="object":
+        st.session_state.keyword = st.text_input("Enter the keyword criteria for screening (eg: MLops, sql, etc.)")
+        filtered_df = st.session_state.df[st.session_state.df[column].str.contains(st.session_state.keyword,case = False, na= False)]
+        st.session_state.mydf = filtered_df
+        st.write("Candidate list filtered succesfully")
+        st.write("There are {} total candidates, having {} skillset.".format(len(st.session_state.mydf),st.session_state.keyword))
+        st.dataframe(st.session_state.mydf)
+    else:
+        st.session_state.mydf = st.session_state.df
     
+    for message in st.session_state.chat_history:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    user_prompt = st.chat_input("Enquire about the candidates")  
+
+    
+
+    if user_prompt:
+        #Prompt for querying from candidate list
+        st.chat_message("user").markdown(user_prompt)  
+        st.session_state.chat_history.append({"role": "user", "content": user_prompt})  
+
+        full_prompt = f"""
+        You are an advanced data analysis model designed to provide precise and consistent answers based on the given DataFrame {st.session_state.mydf.to_string()}
+
+        Question to respond: {user_prompt}
+
+        If retreval of records is required, present the records with all relevant details in a tabular format.
         
+        """
+        chat = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": full_prompt,
+                }
+            ],
+            model="llama3-8b-8192",
+            temperature = 0.5
+        )
+
+        assistant_response = chat.choices[0].message.content  
+        st.session_state.chat_history.append({"role": "assistant", "content": assistant_response})  
+
+        with st.chat_message("assistant"):
+            st.markdown(assistant_response)
+
+    
 
 
-    if st.session_state.task == "Chatbot":
-    #Primarily for pdf input
-        for message in st.session_state.chat_history:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
+if st.session_state.task == "Chatbot":
+#Primarily for pdf input
+    for message in st.session_state.chat_history:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
-        user_prompt = st.chat_input("Enquire about the uploaded file")
-            
-        if user_prompt:
-            st.chat_message("user").markdown(user_prompt)  
-            st.session_state.chat_history.append({"role": "user", "content": user_prompt})  
+    user_prompt = st.chat_input("Enquire about the uploaded file")
+        
+    if user_prompt:
+        st.chat_message("user").markdown(user_prompt)  
+        st.session_state.chat_history.append({"role": "user", "content": user_prompt})  
 
-            full_prompt = f"""
-            You are a helpful assistant who assists the user in retreiving relevant information from the given document {st.session_state.mydf.to_string()}.
-            Keep the answer as relevant and logical as possible.
+        full_prompt = f"""
+        You are a helpful assistant who assists the user in retreiving relevant information from the given document {st.session_state.mydf.to_string()}.
+        Keep the answer as relevant and logical as possible.
 
-            Question to respond: {user_prompt}
+        Question to respond: {user_prompt}
 
-            Respond in detail and in tabular format when required.
-            
-            """
-            chat = client.chat.completions.create(
-                messages=[
-                    {
-                        "role": "user",
-                        "content": full_prompt,
-                    }
-                ],
-                model="llama3-8b-8192",
-                temperature = 0.5
-            )
+        Respond in detail and in tabular format when required.
+        
+        """
+        chat = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": full_prompt,
+                }
+            ],
+            model="llama3-8b-8192",
+            temperature = 0.5
+        )
 
-            assistant_response = chat.choices[0].message.content  
-            st.session_state.chat_history.append({"role": "assistant", "content": assistant_response})  
+        assistant_response = chat.choices[0].message.content  
+        st.session_state.chat_history.append({"role": "assistant", "content": assistant_response})  
 
-            with st.chat_message("assistant"):
-                st.markdown(assistant_response)
+        with st.chat_message("assistant"):
+            st.markdown(assistant_response)
 
 
 
