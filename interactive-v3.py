@@ -55,7 +55,7 @@ if uploaded_file:
         st.error("Failed to read file due to the following reasons:",ex)
 
     st.header("Select Task")    
-    st.session_state.task = st.radio("Options: ",["","Screening chatbot","Chatbot"])
+    st.session_state.task = st.radio("Options: ",["Screening chatbot","Chatbot"],index = None)
 
 
 if st.session_state.task == "Screening chatbot":
