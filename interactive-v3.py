@@ -78,7 +78,7 @@ if st.session_state.task == "Screening chatbot":
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    if st.session_state.mydf:
+    if st.session_state.mydf.any():
         user_prompt = st.chat_input("Enquire about the candidates")  
 
     
