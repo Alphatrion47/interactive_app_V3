@@ -5,6 +5,11 @@ import streamlit as st
 import pandas as pd
 from groq import Groq
 from PyPDF2 import PdfReader
+import spacy
+from nltk.stem.snowball import SnowballStemmer
+
+nlp = spacy.load('en_core_web_sm')
+stemmer = SnowballStemmer("english")
 
 client = Groq(api_key= st.secrets["groq_passkey"])
 
