@@ -68,6 +68,7 @@ if st.session_state.task == "Screening chatbot":
         st.session_state.mydf = filtered_df
         st.write("Candidate list filtered succesfully")
         st.write("There are {} total candidates, having {} skillset.".format(len(st.session_state.mydf),st.session_state.keyword))
+        st.dataframe(st.session_state.mydf)
     else:
         st.session_state.mydf = st.session_state.df
     
