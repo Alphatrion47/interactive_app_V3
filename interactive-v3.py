@@ -53,9 +53,9 @@ if uploaded_file:
         st.error("Failed to read file due to the following reasons:",ex)
 
     st.header("Select Task")    
-    task = st.radio("Options: ",["Screening chatbot","Chatbot"])
+    st.session_state.task = st.radio("Options: ",["Screening chatbot","Chatbot"])
 
-if task == "Screening chatbot":
+if st.session_state.task == "Screening chatbot":
     st.dataframe(st.session_state.df.head(5))
     st.session_state.total_candidates = len(st.session_state.df)
     st.write("There are {} total candidates.".format(st.session_state.total_candidates))
@@ -112,7 +112,7 @@ if task == "Screening chatbot":
     
 
 
-if task == "Chatbot":
+if st.session_state.task == "Chatbot":
 #Primarily for pdf input
     for message in st.session_state.chat_history:
         with st.chat_message(message["role"]):
