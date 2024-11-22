@@ -49,17 +49,16 @@ if uploaded_file:
     st.write("File preview")
     try:    
         st.session_state.df = file_reader(uploaded_file)
+        st.dataframe(st.session_state.df.head(5))
+        st.write("There are {} total candidates.".format(len(st.session_state.df)))
     except Exception as ex:
         st.error("Failed to read file due to the following reasons:",ex)
 
     st.header("Select Task")    
-    st.session_state.task = st.radio("Options: ",["Screening chatbot","Chatbot"])
+    st.session_state.task = st.radio("Options: ",["Screening chatbot","Chatbot"],disabled=True)
 
 if st.session_state.task:
     if st.session_state.task == "Screening chatbot":
-        st.dataframe(st.session_state.df.head(5))
-        st.session_state.total_candidates = len(st.session_state.df)
-        st.write("There are {} total candidates.".format(st.session_state.total_candidates))
         st.write("Select the primary criteria")
         column = st.selectbox("Columns",st.session_state.df.columns)
 
