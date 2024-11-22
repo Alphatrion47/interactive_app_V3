@@ -21,6 +21,9 @@ if "chat_history" not in st.session_state:
 if "df" not in st.session_state:
     st.session_state.df = None
 
+if "mydf" not in st.session_state:
+    st.session_state.mydf = None
+
 if "keyword" not in st.session_state:
     st.session_state.keyword = None
 
