@@ -66,7 +66,7 @@ if st.session_state.task == "Screening chatbot":
     column = st.selectbox("Columns",st.session_state.df.columns)
 
     if st.session_state.df[column].dtype =="object":
-        st.session_state.keyword = st.text_input("Enter the keyword criteria for screening (eg: MLops, sql, etc.)")
+        st.session_state.keyword = st.text_input("Enter the keyword criteria for screening (eg: python, sql, etc.)")
         if st.session_state.keyword:
             filtered_df = st.session_state.df[st.session_state.df[column].str.contains(st.session_state.keyword,case = False, na= False)]
             st.session_state.mydf = filtered_df
