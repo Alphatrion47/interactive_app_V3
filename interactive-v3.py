@@ -64,11 +64,13 @@ if st.session_state.task == "Screening chatbot":
 
     if st.session_state.df[column].dtype =="object":
         st.session_state.keyword = st.text_input("Enter the keyword criteria for screening (eg: MLops, sql, etc.)")
-        filtered_df = st.session_state.df[st.session_state.df[column].str.contains(st.session_state.keyword,case = False, na= False)]
-        st.session_state.mydf = filtered_df
-        st.write("Candidate list filtered succesfully")
-        st.write("There are {} total candidates, having {} skillset.".format(len(st.session_state.mydf),st.session_state.keyword))
-        st.dataframe(st.session_state.mydf)
+        if st.session_state.keyword:
+            filtered_df = st.session_state.df[st.session_state.df[column].str.contains(st.session_state.keyword,case = False, na= False)]
+            st.session_state.mydf = filtered_df
+            st.dataframe(st.session_state.mydf)
+            st.write("Candidate list filtered succesfully")
+            st.write("There are {} total candidates, having {} skillset.".format(len(st.session_state.mydf),st.session_state.keyword))
+            
     else:
         st.session_state.mydf = st.session_state.df
     
