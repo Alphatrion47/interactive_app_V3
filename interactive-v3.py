@@ -60,7 +60,7 @@ if st.session_state.task == "Screening chatbot":
     st.session_state.total_candidates = len(st.session_state.df)
     st.write("There are {} total candidates.".format(st.session_state.total_candidates))
     st.write("Select the primary criteria")
-    criteria = st.multiselectbox("Columns",st.session_state.df.columns)
+    criteria = st.multiselect("Columns",st.session_state.df.columns)
 
     if st.session_state.df[criteria].dtype =="object":
         st.session_state.keyword = st.text_input("Enter the keyword criteria for screening (eg: MLops, sql, etc.)")
