@@ -132,7 +132,7 @@ if st.session_state.task == "Chatbot":
         st.session_state.chat_history.append({"role": "user", "content": user_prompt})  
 
         full_prompt = f"""
-        You are a helpful assistant who assists the user in retreiving relevant information from the given document {st.session_state.mydf.to_string()}.
+        You are a helpful assistant who assists the user in retreiving relevant information from the given document {st.session_state.df.to_string()}.
         Keep the answer as relevant and logical as possible.
 
         Question to respond: {user_prompt}
