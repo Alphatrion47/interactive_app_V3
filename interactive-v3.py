@@ -30,7 +30,8 @@ if "keyword" not in st.session_state:
 if "task" not in st.session_state:
     st.session_state.task = None
 
-uploaded_file = st.file_uploader("Choose a file with information. Acceptable formates are pdf,excel and csv:",type =["csv","xlsx","xls","pdf"])
+
+uploaded_file = st.file_uploader("Choose a file with information. Acceptable formats are pdf,excel and csv:",type =["csv","xlsx","xls","pdf"])
 
 def file_reader(file):
 # Function to extract text from file formats
